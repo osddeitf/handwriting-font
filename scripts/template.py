@@ -1,3 +1,4 @@
+import json
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw
 from common import glyph_matrix
@@ -59,6 +60,20 @@ def gen(input, output, letters, size, scale):
   img = make_template(input, size, scale)
   img.save(output)
 
+  # Save state
+  state = {
+    'sample': input,
+    'letters': letters,
+    'direction': 'horizontal',
+    'rows': rows,
+    'columns': columns,
+    'height': img.size[0] // rows,
+    'width': img.size[1] // columns,
+    'scale': scale
+  }
+
+  with open('state.json', 'w') as f:
+    json.dump(state, f)
 
 # letters = 'HOnodpagscebhklftijmnruwvxyzCGABRDLEFIJKMNPQSTUVWXYZ0123456789?:;-–—=!\'’"“”@/\\~_#$%&()*+,.<>[]^`{|}q'
 letters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ?:;-–—=!\'’"“”@/\\~_#$%&()*+,.<>[]^`{|}'
@@ -66,5 +81,5 @@ input = 'roboto/Roboto-Regular.ttf'
 output = 'Roboto-template.png'
 # input = 'assets/sachacHand.otf'
 # output = 'sachacHand_template.png'
-gen(input, output, letters, size=(10, 10), scale=.5)
+gen(input, output, letters, size=(10, 10), scale=.25)
 print("Success")
