@@ -2,7 +2,7 @@ import json
 import argparse
 from common import save_font
 
-ASCII="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ?:;-=!'\"@/\\~_#$%&()*+,.<>[]^`{|}"
+ASCII="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
 
 
 parser = argparse.ArgumentParser(argument_default='-h')
