@@ -45,7 +45,11 @@ ENV LD_LIBRARY_PATH=/usr/local/lib
 RUN apt-get install python3-pip -y --no-install-recommends
 RUN apt-get install woff-tools -y --no-install-recommends
 
+# For libxml2-python3
+RUN pip3 install setuptools wheel
+
 COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 # Fix aglfn
 RUN cd /usr/local/lib/python3.7/dist-packages/aglfn && \
