@@ -1,4 +1,4 @@
-import json
+import fontforge
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw
 from common import glyph_matrix
@@ -25,7 +25,7 @@ def draw_grid(draw, dx, dy, *, line_width, em, ascent, capHeight, xHeight):
   horz(dx, dy + ascent - capHeight, 'lightgreen')
 
 
-def make_template(sample, size, scale):
+def make_template(sample, size, scale, letters):
   rows, columns = size
 
   font = fontforge.open(sample)
@@ -55,13 +55,13 @@ def make_template(sample, size, scale):
   return img
 
 
-def gen(input, output, letters, size, scale):
+def generate_template(input, output, letters, size, scale):
   rows, columns = size
-  img = make_template(input, size, scale)
+  img = make_template(input, size, scale, letters)
   img.save(output)
 
   # Save state
-  state = {
+  return {
     'sample': input,
     'letters': letters,
     'direction': 'horizontal',
@@ -71,15 +71,3 @@ def gen(input, output, letters, size, scale):
     'width': img.size[1] // columns,
     'scale': scale
   }
-
-  with open('state.json', 'w') as f:
-    json.dump(state, f)
-
-# letters = 'HOnodpagscebhklftijmnruwvxyzCGABRDLEFIJKMNPQSTUVWXYZ0123456789?:;-–—=!\'’"“”@/\\~_#$%&()*+,.<>[]^`{|}q'
-letters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ?:;-–—=!\'’"“”@/\\~_#$%&()*+,.<>[]^`{|}'
-input = 'roboto/Roboto-Regular.ttf'
-output = 'Roboto-template.png'
-# input = 'assets/sachacHand.otf'
-# output = 'sachacHand_template.png'
-gen(input, output, letters, size=(10, 10), scale=.25)
-print("Success")
