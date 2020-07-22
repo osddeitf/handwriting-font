@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libspiro-dev \
   libuninameslist-dev \
   python3-dev \
+  python3-pip \
   ninja-build \
   cmake \
   build-essential \
@@ -20,6 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates
 
 WORKDIR /
+RUN ln -s /usr/local/lib/python3.7 /usr/local/lib/python3
 
 # fontforge
 RUN git clone https://github.com/fontforge/fontforge -b 20200314 --depth=1
@@ -42,7 +44,6 @@ RUN cd autotrace && \
 ENV LD_LIBRARY_PATH=/usr/local/lib
 
 # Dependencies
-RUN apt-get install python3-pip -y --no-install-recommends
 RUN apt-get install woff-tools -y --no-install-recommends
 
 # For libxml2-python3
