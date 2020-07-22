@@ -22,13 +22,12 @@ parser_generate.add_argument('output', type=str)
 
 
 options = vars(parser.parse_args())
-if len(options) == 0:
-  parser.print_help()
-  exit(0)
-
 command = options['command']
 del options['command']
 
+if command == None:
+  parser.print_help()
+  exit(0)
 
 if command == 'template':
   options['size'] = tuple([ int(x) for x in options['size'].split(',') ])
