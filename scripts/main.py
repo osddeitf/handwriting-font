@@ -24,6 +24,7 @@ parser_generate.add_argument('--direction', type=str, default="horizontal")
 parser_generate.add_argument('--size', type=str, help="(rows, columns)")
 parser_generate.add_argument('--dimension', type=str, help="(width, height)")
 parser_generate.add_argument('--scale', type=float)
+parser_generate.add_argument('--no-cache', action='store_true')
 parser_generate.add_argument('input', type=str)
 parser_generate.add_argument('output', type=str)
 
@@ -72,5 +73,5 @@ elif command == 'generate':
     state['scale'] = options['scale']
 
   from process import generate_font
-  font = generate_font(options['input'], state)
+  font = generate_font(options['input'], state, not options['no_cache'])
   save_font(font, options['output'])
