@@ -14,18 +14,19 @@ def draw_grid(draw, dx, dy, *, line_width, em, ascent, capHeight, xHeight):
     draw.line(tuple(xy), fill=color, width=line_width)
 
   # Gray box: left, right, top (ascent), bottom (descent)
-  vert(dx, dy, 'lightgray')
-  vert(dx + em, dy, 'lightgray')
-  horz(dx, dy, 'gray')
-  horz(dx, dy + em, 'gray')
+  vert(dx, dy, '#f2f2f2')
+  vert(dx + em, dy, '#f2f2f2')
+  horz(dx, dy, '#f2f2f2')
+  horz(dx, dy + em, '#f2f2f2')
 
   # baseline, cap height, x-height
-  horz(dx, dy + ascent, 'red')
-  horz(dx, dy + ascent - xHeight, 'lightblue')
-  horz(dx, dy + ascent - capHeight, 'lightgreen')
+  horz(dx, dy + ascent, '#f2f2f2')
+  horz(dx, dy + ascent - xHeight, '#f2f2f2')
+  horz(dx, dy + ascent - capHeight, '#f2f2f2')
 
 
 def make_template(sample, size, scale, letters):
+  padding = 100
   rows, columns = size
 
   font = fontforge.open(sample)
@@ -37,20 +38,28 @@ def make_template(sample, size, scale, letters):
   xHeight = descent * (font.xHeight / font.descent)
   capHeight = descent * (font.capHeight / font.descent)
 
-  img = Image.new('RGB', (em * columns, em * rows), 'white')
+  img = Image.new('RGB', (em * columns + columns * padding * 2, em * rows + rows * padding * 2), 'white')
   draw = ImageDraw.Draw(img)
+
+  for r in range(rows):
+    y = r * (em + padding * 2)
+    draw.line((0, y, img.width, y), width=3, fill="#aaaaaa")
+
+  for c in range(columns):
+    x = c * (em + padding * 2)
+    draw.line((x, 0, x, img.height), width=3, fill="#aaaaaa")
 
   for r, row in enumerate(matrix):
     for c, letter in enumerate(row):
-      dx = em * c
-      dy = em * r
+      dx = em * c + c * padding * 2 + padding
+      dy = em * r + r * padding * 2 + padding
       # Draw grid
       draw_grid(draw, dx, dy, line_width=3, em=em, ascent=ascent, capHeight=capHeight, xHeight=xHeight)
 
       text = chr(letter.unicode)
       x = dx + (em - draw_font.getsize(text)[0]) / 2
       y = dy
-      draw.text((x, y), text, font=draw_font, fill='lightgray')
+      draw.text((x, y), text, font=draw_font, fill='#f2f2f2')
   
   return img
 
