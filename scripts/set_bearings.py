@@ -18,13 +18,13 @@ def set_bearings(font, bearings, **kwargs):
       else:
         key = 'Default'
     if bearing_dict[key][1] != '':
-      font[g].left_side_bearing = bearing_dict[key][1]
+      font[g].left_side_bearing = max(0, bearing_dict[key][1])
     else:
-      font[g].left_side_bearing = bearing_dict['Default'][1]
+      font[g].left_side_bearing = max(0, bearing_dict['Default'][1])
     if bearing_dict[key][2] != '':
-      font[g].right_side_bearing = bearing_dict[key][2]
+      font[g].right_side_bearing = max(0, bearing_dict[key][2])
     else:
-      font[g].right_side_bearing = bearing_dict['Default'][2]
+      font[g].right_side_bearing = max(0, bearing_dict['Default'][2])
   if 'space' not in bearing_dict:
     space = font.createMappedChar('space')
     space.width = int(font.em / 5)
